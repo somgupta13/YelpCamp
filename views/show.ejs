@@ -1,0 +1,57 @@
+<%include partials/header%>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h5>YelpCamp</h5>
+            <ul class="list-group">
+				<li class="list-group-item active">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">info 3</li>
+			</ul>
+        </div>
+        <div class="thumbnail col-md-8  ">
+			<a href="#">
+        		<img class="showimg img-responsive" src="<%=campgrounds.img%>">
+			</a>
+		    <div class="caption">
+			    <h3 style="color:blue;"><%=campgrounds.name%></h3>
+			    <p>
+			    	<%= campgrounds.desc%>
+		    	</p>
+		    	<p><i>Submitted by <%=campgrounds.author.username%></i></p>
+	    	</div>
+	    	<%if(user){%>
+    	    	<%if(campgrounds.author.id.equals(user._id)){%>
+    	    	 <a href="/campgrounds/<%=campgrounds._id%>/edit"><button class="btn btn-xs btn-success">Edit</button></a>
+    	    	 <form style="display:inline;" method="POST" action="/campgrounds/<%=campgrounds._id%>?_method=delete" >
+                 <button class="btn  btn-xs btn-danger">Delete</button>
+                <%}%>
+            <%}%>
+        </form>
+		</div>
+		<div class="col-md-4"></div>
+		<div class=" col-md-8  ">
+    		<div class="col-md-offset-10">
+                <a class="btn btn-primary" href="/campgrounds/<%=campgrounds._id%>/comments/new">Add comment</a>
+            </div>
+            <hr/>
+            <div>
+                    <%campgrounds.comments.forEach(function(comment){%>
+                    <p id="name"><b><%=comment.author.username%></b></p>
+                    </p><%=comment.text%></p>
+                    <%if(user&&comment.author.id.equals(user._id)){%>
+                    <a href="/campgrounds/<%=campgrounds._id%>/comments/<%=comment._id%>/edit"><button class="btn btn-xs btn-success">Edit</button></a>
+    	    	    <form style="display:inline;" method="POST" action="/campgrounds/<%=campgrounds._id%>/comments/<%=comment._id%>?_method=delete" >
+                    <button class="btn  btn-xs btn-danger">Delete</button>
+                    <%}%>
+                    <hr/>
+                    <p></p>
+                    <%});%>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<% include partials/footer %>
